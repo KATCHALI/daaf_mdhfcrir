@@ -17,15 +17,15 @@ class Employe(Base):
     prenom = Column(String)
     date_naissance = Column(Date)
     sexe = Column(String)
-    diplome = Column(String)
-    date_recrutement = Column(Date)
     poste = Column(String)
-    statut = Column(String)
-    categorie = Column(String)
-    grade = Column(String)
-    duree_experience = Column(Integer)  # en années
     direction = Column(String)
+    statut = Column(String)
+    date_recrutement = Column(Date)
+    diplome = Column(String)
+    categorie = Column(String)
+    duree_experience = Column(Integer)  # en années
     date_depart_retraite = Column(Date)
+    grade = Column(String)
     personne_prevenir = Column(String)
 
 class Budget(Base):
@@ -56,31 +56,32 @@ session = Session()
 
 def ajouter_employe():
     try:
-        numero_matricule = input("1. Numéro matricule : ")
-        nom = input("2. Nom : ")
-        prenom = input("3. Prénom : ")
-        date_naissance_str = input("4. Date de naissance (YYYY-MM-DD) : ")
+        numero_matricule = input("Numéro matricule : ")
+        nom = input("Nom : ")
+        prenom = input("Prénom : ")
+        date_naissance_str = input("Date de naissance (YYYY-MM-DD) : ")
         date_naissance = datetime.strptime(date_naissance_str, "%Y-%m-%d").date()
         if date_naissance < date(1900, 1, 1) or date_naissance > date.today():
             print("⚠️ Date de naissance invalide. Doit être entre 1900 et aujourd'hui.")
             return
 
-        sexe = input("5. Sexe (M/F) : ")
-        diplome = input("6. Diplôme : ")
-        date_recrutement_str = input("7. Date de recrutement (YYYY-MM-DD) : ")
+        sexe = input("Sexe (M/F) : ")
+        poste = input("Poste : ")
+        direction = input("Direction : ")
+        statut = input("Statut : ")
+        date_recrutement_str = input("Date de recrutement (YYYY-MM-DD) : ")
         date_recrutement = datetime.strptime(date_recrutement_str, "%Y-%m-%d").date()
-        poste = input("8. Poste : ")
-        statut = input("9. Statut : ")
-        categorie = input("10. Catégorie : ")
-        grade = input("11. Grade : ")
-        duree_experience = int(input("12. Durée d'expérience (en années) : "))
-        direction = input("13. Direction : ")
-        date_depart_retraite_str = input("14. Date de départ à la retraite (YYYY-MM-DD) : ")
+        diplome = input("Diplôme : ")
+        categorie = input("Catégorie : ")
+        duree_experience = int(input("Durée d'expérience (en années) : "))
+        date_depart_retraite_str = input("Date de départ à la retraite (YYYY-MM-DD) : ")
         date_depart_retraite = datetime.strptime(date_depart_retraite_str, "%Y-%m-%d").date()
         if date_depart_retraite > date(2100, 12, 31):
             print("⚠️ Date de départ à la retraite invalide. Doit être avant 2101.")
             return
-        personne_prevenir = input("15. Personne à prévenir en cas de besoin : ")
+        date_depart_retraite = datetime.strptime(date_depart_retraite_str, "%Y-%m-%d").date()
+        grade = input("Grade : ")
+        personne_prevenir = input("Personne à prévenir en cas de besoin : ")
 
         nouvel_employe = Employe(
             numero_matricule=numero_matricule,
@@ -88,15 +89,15 @@ def ajouter_employe():
             prenom=prenom,
             date_naissance=date_naissance,
             sexe=sexe,
-            diplome=diplome,
-            date_recrutement=date_recrutement,
             poste=poste,
-            statut=statut,
-            categorie=categorie,
-            grade=grade,
-            duree_experience=duree_experience,
             direction=direction,
+            statut=statut,
+            date_recrutement=date_recrutement,
+            diplome=diplome,
+            categorie=categorie,
+            duree_experience=duree_experience,
             date_depart_retraite=date_depart_retraite,
+            grade=grade,
             personne_prevenir=personne_prevenir
         )
         session.add(nouvel_employe)
@@ -104,8 +105,6 @@ def ajouter_employe():
         print("✅ Employé ajouté avec succès.")
     except Exception as e:
         print("❌ Erreur lors de l'ajout :", e)
-
-# ... (rest of the CLI functions remain the same, just update field order where needed)
 
 def supprimer_employe():
     try:
